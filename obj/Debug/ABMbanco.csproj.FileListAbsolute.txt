@@ -1,0 +1,11 @@
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\obj\Debug\ABMbanco.csproj.AssemblyReference.cache
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\obj\Debug\ABMbanco.csproj.SuggestedBindingRedirects.cache
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\obj\Debug\ABMbanco.Form1.resources
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\obj\Debug\ABMbanco.Properties.Resources.resources
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\obj\Debug\ABMbanco.csproj.GenerateResource.cache
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\obj\Debug\ABMbanco.csproj.CoreCompileInputs.cache
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\bin\Debug\ABMbanco.exe.config
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\bin\Debug\ABMbanco.exe
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\bin\Debug\ABMbanco.pdb
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\obj\Debug\ABMbanco.exe
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\obj\Debug\ABMbanco.pdb
