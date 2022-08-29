@@ -12,6 +12,7 @@ namespace ABMbanco
     {
         SqlConnection conexion = new SqlConnection(Properties.Resources.String1);
         SqlCommand cmd = new SqlCommand();
+        
 
         public void conectar(string sp_nombre)
         {         
@@ -37,30 +38,46 @@ namespace ABMbanco
 
             return tabla;
         }
-        public int actualidarBD(string sp_nombre,Clientes cl,Cuenta c)
+        public int actualidarBD(string sp_nombre, Clientes cl, Cuenta c)
         {
+            SqlTransaction t = null;
+
+            bool ok = true;
             int filasAfectadas = 0;
-            conectar(sp_nombre);
-            cmd.CommandText = sp_nombre;
+            try
+            {
+                conectar(sp_nombre);
+                t = conexion.BeginTransaction();
 
-            cmd.Parameters.AddWithValue("@apellido", cl.Apellido);
-            cmd.Parameters.AddWithValue("@nombre", cl.Nombre);
-            cmd.Parameters.AddWithValue("@dni",cl.Dni);
-            cmd.Parameters.AddWithValue("@cbu", c.Cbu);
-            cmd.Parameters.AddWithValue("@saldo",c.Saldo);
-            cmd.Parameters.AddWithValue("@ultimomovimiento", c.UltimoMovimiento);
-            cmd.Parameters.AddWithValue("id_tipo_cuenta",c.TipoCuenta);
-           
-            filasAfectadas=cmd.ExecuteNonQuery();
-            desconectar();
+                cmd.CommandText = sp_nombre;
+
+                cmd.Transaction=t;
+
+                cmd.Parameters.AddWithValue("@apellido", cl.Apellido);
+                cmd.Parameters.AddWithValue("@nombre", cl.Nombre);
+                cmd.Parameters.AddWithValue("@dni", cl.Dni);
+                cmd.Parameters.AddWithValue("@cbu", c.Cbu);
+                cmd.Parameters.AddWithValue("@saldo", c.Saldo);
+                cmd.Parameters.AddWithValue("@ultimomovimiento", c.UltimoMovimiento);
+                cmd.Parameters.AddWithValue("id_tipo_cuenta", c.TipoCuenta);
+
+                filasAfectadas=cmd.ExecuteNonQuery();
+                
+                t.Commit();
+                desconectar();
+
+            }
+
+            catch (SqlException)
+            {
+                if (t != null)
+                {
+                    t.Rollback();
+                    ok=false;
+                }
+            }
             return filasAfectadas;
+
         }
-       
-        
-
-       
-
-
-
     }
 }

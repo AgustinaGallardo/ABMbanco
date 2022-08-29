@@ -102,7 +102,7 @@ namespace ABMbanco
                 Clientes cl = new Clientes();
 
                 cl.Apellido=Convert.ToString(txtApellido.Text);
-                cl.Nombre=Convert.ToString(txtApellido.Text);
+                cl.Nombre=Convert.ToString(txtNombre.Text);
                 cl.Dni=Convert.ToInt32(txtDni.Text);
                 c.Cbu=Convert.ToInt32(txtcbu.Text);
                 c.TipoCuenta=Convert.ToInt32(cboTipoCuenta.SelectedValue);
