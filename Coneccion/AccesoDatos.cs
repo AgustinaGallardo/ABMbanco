@@ -13,7 +13,6 @@ namespace ABMbanco
         SqlConnection conexion = new SqlConnection(Properties.Resources.String1);
         SqlCommand cmd = new SqlCommand();
         
-
         public void conectar(string sp_nombre)
         {         
             cmd.Connection = conexion;
@@ -21,12 +20,10 @@ namespace ABMbanco
             cmd.CommandText=sp_nombre;
             conexion.Open();
         }
-
         public void desconectar()
         {
             conexion.Close();
         }
-
         public DataTable ConsultarBD(string sp_nombre)
         {
             DataTable tabla = new DataTable();
@@ -67,7 +64,6 @@ namespace ABMbanco
                 desconectar();
 
             }
-
             catch (SqlException)
             {
                 if (t != null)
