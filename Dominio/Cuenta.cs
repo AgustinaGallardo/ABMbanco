@@ -10,7 +10,7 @@ namespace ABMbanco
     {
         private int cbu;
         private double saldo;
-        private double ultimoMovimiento;        
+        private DateTime ultimoMovimiento;        
         private int tipoCuenta;
         private Clientes cliente;
 
@@ -20,29 +20,29 @@ namespace ABMbanco
         { get { return cbu; } set { cbu = value; } }
         public double Saldo
         { get { return saldo; } set { saldo = value; } }
-        public double UltimoMovimiento
+        public DateTime UltimoMovimiento
         { get { return ultimoMovimiento; } set { ultimoMovimiento = value; } }  
         public int TipoCuenta
         { get { return tipoCuenta; } set { tipoCuenta = value; } }
-        public Cuenta (int cbu, double saldo, double ultimoMovimiento, int tipoCuenta,Clientes cliente)
-        {
-            this.cbu = cbu;
-            this.saldo = saldo;
-            this.ultimoMovimiento=ultimoMovimiento;
-            this.tipoCuenta=tipoCuenta;
-            this.Clientes = cliente;
-        }
+        //public Cuenta (int cbu, double saldo, DateTime ultimoMovimiento, int tipoCuenta,Clientes cliente)
+        //{
+        //    this.cbu = cbu;
+        //    this.saldo = saldo;
+        //    this.ultimoMovimiento=ultimoMovimiento;
+        //    this.tipoCuenta=tipoCuenta;
+        //    this.Clientes = new Clientes();
+        //}
         public Cuenta   ()
         {
             this.cbu=0;
             this.Saldo=0;
-            this.ultimoMovimiento=0;
+            this.ultimoMovimiento=DateTime.Today;
             this.tipoCuenta=0;
-            this.cliente=cliente;
+            this.cliente = new Clientes();
         }
         public override string ToString()
         {
-            return "cbu: " + this.cbu + ", Saldo: " + this.saldo + "$, Cliente: " + this.cliente.ToString();
+            return "cbu: " + this.cbu + ", Saldo: " + this.saldo + "$";
         }
     }
 

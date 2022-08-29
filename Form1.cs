@@ -23,43 +23,40 @@ namespace ABMbanco
         private void Form1_Load(object sender, EventArgs e)
         {
             cargarCombo();
-            cargarLista();
+            cargarDGV();
         }
 
-        private void cargarLista()
+        private void cargarDGV()
         {
-            lstClientes.Items.Clear();
-
+           
             dgvClientes.Rows.Clear();
 
-            DataTable tabla = oBD.ConsultarBD("cargarDGV");
+            DataTable tabla = oBD.ConsultarBD("cargaDataGridView");
 
             for(int i = 0; i < tabla.Rows.Count; i++)
             {
-                Banco b = new Banco();
+                Cuenta c = new Cuenta();
+                Clientes cl = new Clientes();
+                
 
-                b.Cuenta.Clientes.Nombre=Convert.ToString(tabla.Rows[i][0]);
-                b.Cuenta.Clientes.Apellido=Convert.ToString(tabla.Rows[i][1]);
-                b.Cuenta.Clientes.Dni=Convert.ToInt32(tabla.Rows [i][2]);
-                b.Cuenta.TipoCuenta=Convert.ToInt32(tabla.Rows[i][3]);
-                b.Cuenta.Saldo=Convert.ToDouble(tabla.Rows[i][4]);
-                b.Cuenta.UltimoMovimiento=Convert.ToDouble(tabla.Rows[i][5]);                
-
-                //lClientes.Add(b);
-                //lstClientes.Items.Add(b);             
+                cl.Nombre=Convert.ToString(tabla.Rows[i][0]);
+                cl.Apellido=Convert.ToString(tabla.Rows[i][1]);
+                cl.Dni=Convert.ToInt32(tabla.Rows [i][2]);            
+                c.Saldo=Convert.ToDouble(tabla.Rows[i][3]);
+                c.UltimoMovimiento=Convert.ToDateTime(tabla.Rows[i][4]);                
+            
                 dgvClientes.Rows.Add(new object[] {
-                    b.Cuenta.Clientes.Nombre,
-                    b.Cuenta.Clientes.Apellido,
-                    b.Cuenta.Clientes.Dni,
-                    b.Cuenta.TipoCuenta,
-                    b.Cuenta.Saldo,
-                    b.Cuenta.UltimoMovimiento
+                    cl.Nombre,
+                    cl.Apellido,
+                    cl.Dni,                    
+                    c.Saldo,
+                    c.UltimoMovimiento
                 });
             }            
         }
         private void cargarCombo()
         {
-            DataTable tabla = oBD.ConsultarBD("SP_tiposCuentas");
+            DataTable tabla = oBD.ConsultarBD("sp_comboTiposCuentas");
             cboTipoCuenta.DataSource = tabla;
             cboTipoCuenta.ValueMember =tabla.Columns[0].ColumnName;
             cboTipoCuenta.DisplayMember=tabla.Columns[1].ColumnName;
@@ -85,16 +82,89 @@ namespace ABMbanco
 
         private void dgvClientes_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(dgvClientes.Rows.Count != 0 )
-            {
-                txtApellido.Text = dgvClientes.CurrentRow.Cells[0].Value.ToString();
-                txtNombre.Text = dgvClientes.CurrentRow.Cells[1].Value.ToString();
-                txtDni.Text = (dgvClientes.CurrentRow.Cells[2].Value.ToString());
-                cboTipoCuenta.SelectedValue = dgvClientes.CurrentRow.Cells[3];
-                txtSaldo.Text= dgvClientes.CurrentRow.Cells[4].Value.ToString();
-                txtUltimoMov.Text=dgvClientes.CurrentRow.Cells[5].Value.ToString();
+            //if(dgvClientes.Rows.Count != 0 )
+            //{
+            //    txtApellido.Text = dgvClientes.CurrentRow.Cells[0].Value.ToString();
+            //    txtNombre.Text = dgvClientes.CurrentRow.Cells[1].Value.ToString();
+            //    txtDni.Text = (dgvClientes.CurrentRow.Cells[2].Value.ToString());
+            //    cboTipoCuenta.SelectedValue = dgvClientes.CurrentRow.Cells[3];
+            //    txtSaldo.Text= dgvClientes.CurrentRow.Cells[4].Value.ToString();
+            //    txtUltimoMov.Text=dgvClientes.CurrentRow.Cells[5].Value.ToString();
 
+            //}
+        }
+
+        private void btnGrabar_Click(object sender, EventArgs e)
+        {
+            if(validar())
+            {
+                Cuenta c = new Cuenta();
+                Clientes cl = new Clientes();
+
+                cl.Apellido=Convert.ToString(txtApellido.Text);
+                cl.Nombre=Convert.ToString(txtApellido.Text);
+                cl.Dni=Convert.ToInt32(txtDni.Text);
+                c.Cbu=Convert.ToInt32(txtcbu.Text);
+                c.TipoCuenta=Convert.ToInt32(cboTipoCuenta.SelectedValue);
+
+                c.Saldo=Convert.ToDouble(txtSaldo.Text);
+                c.UltimoMovimiento=Convert.ToDateTime(txtUltimoMov.Text);
+
+                string sp_nombre = "InsertarClientes";
+
+                if(oBD.actualidarBD(sp_nombre,cl,c) > 0)
+                {
+                    MessageBox.Show("Se agrego con exito!!!");
+                    dgvClientes.Rows.Add(new object[] {
+                    cl.Apellido,
+                    cl.Nombre,
+                    cl.Dni,
+                    c.Saldo,
+                    c.UltimoMovimiento
+                });
+                }
             }
+        }
+
+        private bool validar()
+        {
+            if(txtApellido.Text=="")
+            {
+                MessageBox.Show("Tiene que agregar el apellido del cliente!!!");
+                txtApellido.Focus();
+                return false;
+            }
+            if(txtNombre.Text=="")
+            {
+                MessageBox.Show("Tiene que agregar el nombre del cliente!!!");
+                txtApellido.Focus();
+                return false;
+            }
+            if(txtDni.Text=="")
+            {
+                MessageBox.Show("Tiene que agregar el dni del cliente!!!");
+                txtApellido.Focus();
+                return false;
+            }
+            if(txtSaldo.Text=="")
+            {
+                MessageBox.Show("Tiene que agregar el saldo del cliente!!!");
+                txtApellido.Focus();
+                return false;
+            }
+            if(txtUltimoMov.Text=="")
+            {
+                MessageBox.Show("Tiene que agregar el ultimo movimiento del cliente!!!");
+                txtApellido.Focus();
+                return false;
+            }
+            if(cboTipoCuenta.SelectedIndex==-1)
+            {
+                MessageBox.Show("Tiene que seleccionar el tipo de cuenta del cliente!!!");
+                txtApellido.Focus();
+                return false;
+            }
+            return true;
         }
     }
 }
