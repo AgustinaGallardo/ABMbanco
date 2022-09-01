@@ -8,21 +8,21 @@ using System.Data.SqlClient;
 
 namespace ABMbanco
 {
-    internal class AccesoDatos
+    internal class Helper
     {
-        SqlConnection conexion = new SqlConnection(Properties.Resources.String1);
+        SqlConnection cnn = new SqlConnection(Properties.Resources.cnnBanco);
         SqlCommand cmd = new SqlCommand();
         
         public void conectar(string sp_nombre)
         {         
-            cmd.Connection = conexion;
+            cmd.Connection = cnn;
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText=sp_nombre;
-            conexion.Open();
+            cnn.Open();
         }
         public void desconectar()
         {
-            conexion.Close();
+            cnn.Close();
         }
         public DataTable ConsultarBD(string sp_nombre)
         {
@@ -35,6 +35,20 @@ namespace ABMbanco
 
             return tabla;
         }
+        public int ProximoCliente(string sp_nombre)
+        {
+            conectar(sp_nombre);
+            cmd.CommandText=sp_nombre;
+            SqlParameter OutPut=new SqlParameter();
+            OutPut.ParameterName = "@Next";
+            OutPut.DbType = DbType.Int32;
+            OutPut.Direction = ParameterDirection.Output;
+            cmd.Parameters.Add(OutPut);
+            cmd.ExecuteNonQuery();
+            desconectar();
+            return (int)OutPut.Value;
+
+        }
         public int actualidarBD(string sp_nombre, Clientes cl, Cuenta c)
         {
             SqlTransaction t = null;
@@ -44,7 +58,7 @@ namespace ABMbanco
             try
             {
                 conectar(sp_nombre);
-                t = conexion.BeginTransaction();
+                t = cnn.BeginTransaction();
 
                 cmd.CommandText = sp_nombre;
 
@@ -56,7 +70,7 @@ namespace ABMbanco
                 cmd.Parameters.AddWithValue("@cbu", c.Cbu);
                 cmd.Parameters.AddWithValue("@saldo", c.Saldo);
                 cmd.Parameters.AddWithValue("@ultimomovimiento", c.UltimoMovimiento);
-                cmd.Parameters.AddWithValue("id_tipo_cuenta", c.TipoCuenta);
+                
 
                 filasAfectadas=cmd.ExecuteNonQuery();
                 

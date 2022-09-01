@@ -12,7 +12,7 @@ namespace ABMbanco
 {
     public partial class Form1 : Form
     {
-        AccesoDatos oBD = new AccesoDatos();
+        Helper helper = new Helper();   
         List<Clientes> lClientes = new List<Clientes>();
 
         public Form1()
@@ -25,7 +25,20 @@ namespace ABMbanco
             cargarDGV();
             Limpiar();
             Habilitar(false);
+            cargarProximoCliente();
         }
+
+        private void cargarProximoCliente()
+        {
+            int next = helper.ProximoCliente("sp_ProximoCiente");
+            if (next >1)
+            
+                lblProximoCliente.Text = "Cliente Nro: " + next.ToString();
+              else
+                    MessageBox.Show("Error de datos. No se puede obtener Nº de Cliente!",
+                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);            
+        }
+
         private void Habilitar(bool v)
         {
             txtApellido.Enabled = v;
@@ -52,34 +65,11 @@ namespace ABMbanco
         }
         private void cargarDGV()
         {           
-            dgvClientes.Rows.Clear();
-
-            DataTable tabla = oBD.ConsultarBD("cargaDataGridView");
-
-            for(int i = 0; i < tabla.Rows.Count; i++)
-            {
-                Cuenta c = new Cuenta();
-                Clientes cl = new Clientes();
-                
-
-                cl.Nombre=Convert.ToString(tabla.Rows[i][0]);
-                cl.Apellido=Convert.ToString(tabla.Rows[i][1]);
-                cl.Dni=Convert.ToInt32(tabla.Rows [i][2]);            
-                c.Saldo=Convert.ToDouble(tabla.Rows[i][3]);
-                c.UltimoMovimiento=Convert.ToDateTime(tabla.Rows[i][4]);                
-            
-                dgvClientes.Rows.Add(new object[] {
-                    cl.Nombre,
-                    cl.Apellido,
-                    cl.Dni,                    
-                    c.Saldo,
-                    c.UltimoMovimiento
-                });
-            }            
+          
         }
         private void cargarCombo()
         {
-            DataTable tabla = oBD.ConsultarBD("sp_comboTiposCuentas");
+            DataTable tabla = helper.ConsultarBD("sp_comboTiposCuentas");
             cboTipoCuenta.DataSource = tabla;
             cboTipoCuenta.ValueMember =tabla.Columns[0].ColumnName;
             cboTipoCuenta.DisplayMember=tabla.Columns[1].ColumnName;
@@ -125,13 +115,13 @@ namespace ABMbanco
                 cl.Nombre=Convert.ToString(txtNombre.Text);
                 cl.Dni=Convert.ToInt32(txtDni.Text);
                 c.Cbu=Convert.ToInt32(txtcbu.Text);
-                c.TipoCuenta=Convert.ToInt32(cboTipoCuenta.SelectedValue);
+               // c.TipoCuenta=Convert.ToInt32(cboTipoCuenta.SelectedValue);
                 c.Saldo=Convert.ToDouble(txtSaldo.Text);
                 c.UltimoMovimiento=Convert.ToDateTime(txtUltimoMov.Text);
 
                 string sp_nombre = "InsertarClientes";
 
-                if(oBD.actualidarBD(sp_nombre,cl,c) > 0)
+                if(helper.actualidarBD(sp_nombre,cl,c) > 0)
                 {
                     MessageBox.Show("Se agrego con exito!!!");
                     dgvClientes.Rows.Add(new object[] {
@@ -189,6 +179,32 @@ namespace ABMbanco
         {
             Habilitar(true);
             btnSalir.Enabled = true;
+        }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            if (validar())
+            {
+                Cuenta c = new Cuenta();
+                Clientes cl = new Clientes();
+
+                cl.Apellido=Convert.ToString(txtApellido.Text);
+                cl.Nombre=Convert.ToString(txtNombre.Text);
+                cl.Dni=Convert.ToInt32(txtDni.Text);
+                c.Cbu=Convert.ToInt32(txtcbu.Text);
+                c.Saldo=Convert.ToDouble(txtSaldo.Text);
+                c.UltimoMovimiento=Convert.ToDateTime(txtUltimoMov.Text);
+
+
+                dgvClientes.Rows.Add(new object[] {
+                    cl.Apellido,
+                    cl.Nombre,
+                    cl.Dni,
+                    c.Saldo,
+                    c.UltimoMovimiento
+                });
+            }
+
         }
     }
 }

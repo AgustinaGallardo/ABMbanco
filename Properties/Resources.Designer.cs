@@ -61,11 +61,11 @@ namespace ABMbanco.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Data Source=DESKTOP-DBB4CIB\SQLEXPRESS;Initial Catalog=ABMbanco;Integrated Security=True.
+        ///   Busca una cadena traducida similar a Data Source=DESKTOP-DBB4CIB\SQLEXPRESS;Initial Catalog=ABMbanco_1_3;Integrated Security=True.
         /// </summary>
-        internal static string String1 {
+        internal static string cnnBanco {
             get {
-                return ResourceManager.GetString("String1", resourceCulture);
+                return ResourceManager.GetString("cnnBanco", resourceCulture);
             }
         }
     }

@@ -46,7 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Coneccion\AccesoDatos.cs" />
+    <Compile Include="Coneccion\Helper.cs" />
+    <Compile Include="Dominio\TipoCuenta.cs" />
     <Compile Include="Dominio\Clientes.cs" />
     <Compile Include="Dominio\Cuenta.cs" />
     <Compile Include="Form1.cs">
