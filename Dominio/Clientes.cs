@@ -8,13 +8,13 @@ namespace ABMbanco
 {
     internal class Clientes
     {
-        private int cliente;
+        private int idCliente;
         private string nombre;
         private string apellido;
         private int dni;
         private Cuenta cuenta;
       
-        public int Cliente { get; set; }
+        public int IdCliente { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public int Dni { get; set; }
@@ -22,7 +22,7 @@ namespace ABMbanco
 
         public Clientes()
         {
-            this.cliente = 0;
+            this.IdCliente = 0;
             this.nombre = "";
             this.apellido = "";
             this.dni = 0;
@@ -30,7 +30,7 @@ namespace ABMbanco
         }
         public Clientes(int cliente, string nombre, string apellido, int dni, Cuenta cuenta)
         {
-            this.cliente = cliente;
+            this.idCliente = cliente;
             this.nombre = nombre;
             this.apellido = apellido;
             this.dni= dni;

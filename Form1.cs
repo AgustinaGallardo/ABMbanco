@@ -14,6 +14,7 @@ namespace ABMbanco
     {
         Helper helper = new Helper();   
         List<Clientes> lClientes = new List<Clientes>();
+        Clientes c = new Clientes();
 
         public Form1()
         {
@@ -30,7 +31,7 @@ namespace ABMbanco
 
         private void cargarProximoCliente()
         {
-            int next = helper.ProximoCliente("sp_ProximoCiente");
+            int next = helper.ProximoCliente("ProximoCiente");
             if (next >1)
             
                 lblProximoCliente.Text = "Cliente Nro: " + next.ToString();
@@ -69,7 +70,7 @@ namespace ABMbanco
         }
         private void cargarCombo()
         {
-            DataTable tabla = helper.ConsultarBD("sp_comboTiposCuentas");
+            DataTable tabla = helper.ConsultarBD("cboTiposCuentas");
             cboTipoCuenta.DataSource = tabla;
             cboTipoCuenta.ValueMember =tabla.Columns[0].ColumnName;
             cboTipoCuenta.DisplayMember=tabla.Columns[1].ColumnName;
@@ -104,35 +105,38 @@ namespace ABMbanco
                 txtUltimoMov.Text=dgvClientes.CurrentRow.Cells[4].Value.ToString();
             }
         }
+        public void GuardarCliente()
+        {
+            c.Apellido = txtApellido.Text;
+            c.Nombre = txtNombre.Text;
+            c.Dni = Convert.ToInt32(txtDni.Text);
+
+            if (helper.ConfirmarCliente(c))
+            {
+                MessageBox.Show("Cliente registrado", "Informe", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Dispose();
+            }
+            else
+            {
+                MessageBox.Show("ERROR. No se pudo registrar el cliente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         private void btnGrabar_Click(object sender, EventArgs e)
         {
             if(validar())
             {
                 Cuenta c = new Cuenta();
-                Clientes cl = new Clientes();
+                Clientes cl = new Clientes();                
 
+                
                 cl.Apellido=Convert.ToString(txtApellido.Text);
                 cl.Nombre=Convert.ToString(txtNombre.Text);
                 cl.Dni=Convert.ToInt32(txtDni.Text);
-                c.Cbu=Convert.ToInt32(txtcbu.Text);
-               // c.TipoCuenta=Convert.ToInt32(cboTipoCuenta.SelectedValue);
-                c.Saldo=Convert.ToDouble(txtSaldo.Text);
-                c.UltimoMovimiento=Convert.ToDateTime(txtUltimoMov.Text);
 
-                string sp_nombre = "InsertarClientes";
+                GuardarCliente();
 
-                if(helper.actualidarBD(sp_nombre,cl,c) > 0)
-                {
-                    MessageBox.Show("Se agrego con exito!!!");
-                    dgvClientes.Rows.Add(new object[] {
-                    cl.Apellido,
-                    cl.Nombre,
-                    cl.Dni,
-                    c.Saldo,
-                    c.UltimoMovimiento
-                });
-                }
-                Limpiar();
+               
+                
             }
         }
         private bool validar()

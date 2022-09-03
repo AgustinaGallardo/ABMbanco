@@ -61,7 +61,7 @@ namespace ABMbanco.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Data Source=DESKTOP-DBB4CIB\SQLEXPRESS;Initial Catalog=ABMbanco_1_3;Integrated Security=True.
+        ///   Busca una cadena traducida similar a Data Source=DESKTOP-DBB4CIB\SQLEXPRESS;Initial Catalog=AMBbancoProgII;Integrated Security=True.
         /// </summary>
         internal static string cnnBanco {
             get {

@@ -13,31 +13,27 @@ namespace ABMbanco
         SqlConnection cnn = new SqlConnection(Properties.Resources.cnnBanco);
         SqlCommand cmd = new SqlCommand();
         
-        public void conectar(string sp_nombre)
+        public void conectar()
         {         
             cmd.Connection = cnn;
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText=sp_nombre;
             cnn.Open();
         }
-        public void desconectar()
-        {
-            cnn.Close();
-        }
+       
         public DataTable ConsultarBD(string sp_nombre)
         {
             DataTable tabla = new DataTable();
-            conectar(sp_nombre);
-               
+            conectar();
+            cmd.CommandText=sp_nombre;  
             
             tabla.Load(cmd.ExecuteReader());
-            desconectar();
+            cnn.Close();
 
             return tabla;
         }
         public int ProximoCliente(string sp_nombre)
         {
-            conectar(sp_nombre);
+            conectar();
             cmd.CommandText=sp_nombre;
             SqlParameter OutPut=new SqlParameter();
             OutPut.ParameterName = "@Next";
@@ -45,37 +41,59 @@ namespace ABMbanco
             OutPut.Direction = ParameterDirection.Output;
             cmd.Parameters.Add(OutPut);
             cmd.ExecuteNonQuery();
-            desconectar();
+            cnn.Close();
             return (int)OutPut.Value;
 
         }
-        public int actualidarBD(string sp_nombre, Clientes cl, Cuenta c)
+        public bool ConfirmarCliente(Clientes c)
         {
+            bool ok = true;
+
             SqlTransaction t = null;
 
-            bool ok = true;
-            int filasAfectadas = 0;
             try
             {
-                conectar(sp_nombre);
+                conectar();
                 t = cnn.BeginTransaction();
 
-                cmd.CommandText = sp_nombre;
+                cmd.CommandText = "insertCliente";
 
                 cmd.Transaction=t;
 
-                cmd.Parameters.AddWithValue("@apellido", cl.Apellido);
-                cmd.Parameters.AddWithValue("@nombre", cl.Nombre);
-                cmd.Parameters.AddWithValue("@dni", cl.Dni);
-                cmd.Parameters.AddWithValue("@cbu", c.Cbu);
-                cmd.Parameters.AddWithValue("@saldo", c.Saldo);
-                cmd.Parameters.AddWithValue("@ultimomovimiento", c.UltimoMovimiento);
-                
+                cmd.Parameters.AddWithValue("@apellido", c.Apellido);
+                cmd.Parameters.AddWithValue("@nombre", c.Nombre);
+                cmd.Parameters.AddWithValue("@dni", c.Dni);
 
-                filasAfectadas=cmd.ExecuteNonQuery();
-                
+                SqlParameter OutPut = new SqlParameter();
+                OutPut.ParameterName = "@cod_cliente";
+                OutPut.DbType = DbType.Int32;
+                OutPut.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(OutPut);
+                cmd.ExecuteNonQuery();
+
+                int cod_cliente = (int)OutPut.Value;
+
+                foreach (Cuenta item in c.Cuenta.Cuentas)
+                {
+
+                    SqlCommand cmdDetalle = new SqlCommand();
+                    t = cnn.BeginTransaction();
+                    conectar();
+                    cmdDetalle.CommandText="insertCuenta";
+                    cmdDetalle.Connection = cnn;
+                    cmdDetalle.Transaction = t;
+                    cmdDetalle.CommandText = "insertCuenta";
+                    cmdDetalle.CommandType = CommandType.StoredProcedure;
+                    cmdDetalle.Parameters.AddWithValue("@cod_cliente",cod_cliente);
+                    cmdDetalle.Parameters.AddWithValue("@cbu", item.Cbu);
+                    cmdDetalle.Parameters.AddWithValue("@saldo", item.Saldo);
+                    cmdDetalle.Parameters.AddWithValue("@ultimomovimiento",item.UltimoMovimiento);
+                    cmdDetalle.Parameters.AddWithValue("@id_tipoCuenta", item.cuenta.pTipo);
+                    cmdDetalle.ExecuteNonQuery();
+
+                }
+
                 t.Commit();
-                desconectar();
 
             }
             catch (SqlException)
@@ -86,8 +104,16 @@ namespace ABMbanco
                     ok=false;
                 }
             }
-            return filasAfectadas;
-
+            finally
+            {
+                if (cnn.State == ConnectionState.Open)
+                {
+                    cnn.Close();
+                }
+            }
+            return ok;
         }
+        
+        
     }
 }
