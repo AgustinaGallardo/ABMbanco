@@ -14,7 +14,7 @@ namespace ABMbanco
     {
         Helper helper = new Helper();   
         List<Clientes> lClientes = new List<Clientes>();
-        Clientes c = new Clientes();
+        
 
         public Form1()
         {
@@ -107,18 +107,27 @@ namespace ABMbanco
         }
         public void GuardarCliente()
         {
+            Clientes c = new Clientes();
             c.Apellido = txtApellido.Text;
             c.Nombre = txtNombre.Text;
             c.Dni = Convert.ToInt32(txtDni.Text);
+            Cuenta nuevaCuenta = new Cuenta();
+            nuevaCuenta.Cbu = Convert.ToInt32(txtcbu.Text);
+            nuevaCuenta.Saldo = Convert.ToDouble(txtSaldo.Text);
+            nuevaCuenta.tipoCuenta.pTipo = cboTipoCuenta.SelectedValue.ToString();
+            c.Cuentas.Add(nuevaCuenta);
 
             if (helper.ConfirmarCliente(c))
             {
-                MessageBox.Show("Cliente registrado", "Informe", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Cliente registrado", "Informe", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Information);
                 this.Dispose();
             }
             else
             {
-                MessageBox.Show("ERROR. No se pudo registrar el cliente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("ERROR. No se pudo registrar el cliente!!!!!!!!!!!! algo esta mal", 
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void btnGrabar_Click(object sender, EventArgs e)
@@ -133,9 +142,7 @@ namespace ABMbanco
                 cl.Nombre=Convert.ToString(txtNombre.Text);
                 cl.Dni=Convert.ToInt32(txtDni.Text);
 
-                GuardarCliente();
-
-               
+                GuardarCliente();              
                 
             }
         }

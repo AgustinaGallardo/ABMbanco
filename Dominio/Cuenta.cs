@@ -11,8 +11,7 @@ namespace ABMbanco
         private int cbu;
         private double saldo;
         private DateTime ultimoMovimiento;
-        public TipoCuenta cuenta { get; set; }
-        public List<Cuenta> Cuentas { get; set; }
+        public TipoCuenta tipoCuenta;
 
         public int Cbu
         { get { return cbu; } set { cbu = value; } }
@@ -26,9 +25,7 @@ namespace ABMbanco
             this.cbu=0;
             this.Saldo=0;
             this.ultimoMovimiento=DateTime.Today;
-            Cuentas = new List<Cuenta>();
-            cuenta = new TipoCuenta ();
-
+            tipoCuenta = new TipoCuenta ();
         }
         public override string ToString()
         {

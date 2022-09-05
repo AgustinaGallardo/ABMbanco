@@ -9,3 +9,8 @@ C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\bin\Debug
 C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\bin\Debug\ABMbanco.pdb
 C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\obj\Debug\ABMbanco.exe
 C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\obj\Debug\ABMbanco.pdb
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\bin\Debug\Microsoft.ReportViewer.Common.dll
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\bin\Debug\Microsoft.ReportViewer.DataVisualization.dll
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\bin\Debug\Microsoft.ReportViewer.ProcessingObjectModel.dll
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\bin\Debug\Microsoft.ReportViewer.WebForms.dll
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\obj\Debug\ABMbanco.csproj.CopyComplete

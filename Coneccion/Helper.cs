@@ -55,7 +55,7 @@ namespace ABMbanco
             {
                 conectar();
                 t = cnn.BeginTransaction();
-
+                cmd.Parameters.Clear();
                 cmd.CommandText = "insertCliente";
 
                 cmd.Transaction=t;
@@ -70,25 +70,24 @@ namespace ABMbanco
                 OutPut.Direction = ParameterDirection.Output;
                 cmd.Parameters.Add(OutPut);
                 cmd.ExecuteNonQuery();
+               
 
                 int cod_cliente = (int)OutPut.Value;
 
-                foreach (Cuenta item in c.Cuenta.Cuentas)
+                SqlCommand cmdDetalle;
+                
+                foreach (Cuenta item in c.Cuentas)
                 {
-
-                    SqlCommand cmdDetalle = new SqlCommand();
-                    t = cnn.BeginTransaction();
-                    conectar();
-                    cmdDetalle.CommandText="insertCuenta";
-                    cmdDetalle.Connection = cnn;
-                    cmdDetalle.Transaction = t;
-                    cmdDetalle.CommandText = "insertCuenta";
+                    cmdDetalle = new SqlCommand("insertCuenta", cnn, t);
+                   
                     cmdDetalle.CommandType = CommandType.StoredProcedure;
-                    cmdDetalle.Parameters.AddWithValue("@cod_cliente",cod_cliente);
-                    cmdDetalle.Parameters.AddWithValue("@cbu", item.Cbu);
+
+                    cmdDetalle.Parameters.AddWithValue("@cbu",item.Cbu);
+                    cmdDetalle.Parameters.AddWithValue("@id_tipoCuenta", Int32.Parse(item.tipoCuenta.pTipo));
                     cmdDetalle.Parameters.AddWithValue("@saldo", item.Saldo);
-                    cmdDetalle.Parameters.AddWithValue("@ultimomovimiento",item.UltimoMovimiento);
-                    cmdDetalle.Parameters.AddWithValue("@id_tipoCuenta", item.cuenta.pTipo);
+                    cmdDetalle.Parameters.AddWithValue("@ultimomovimiento", item.UltimoMovimiento);
+                    cmdDetalle.Parameters.AddWithValue("@cod_cliente",cod_cliente);
+                   
                     cmdDetalle.ExecuteNonQuery();
 
                 }
@@ -96,7 +95,7 @@ namespace ABMbanco
                 t.Commit();
 
             }
-            catch (SqlException)
+            catch (Exception )
             {
                 if (t != null)
                 {
@@ -106,7 +105,7 @@ namespace ABMbanco
             }
             finally
             {
-                if (cnn.State == ConnectionState.Open)
+                if (cnn != null && cnn.State == ConnectionState.Open)
                 {
                     cnn.Close();
                 }
