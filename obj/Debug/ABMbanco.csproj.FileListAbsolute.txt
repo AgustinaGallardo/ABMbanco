@@ -12,5 +12,11 @@ C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\obj\Debug
 C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\bin\Debug\Microsoft.ReportViewer.Common.dll
 C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\bin\Debug\Microsoft.ReportViewer.DataVisualization.dll
 C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\bin\Debug\Microsoft.ReportViewer.ProcessingObjectModel.dll
-C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\bin\Debug\Microsoft.ReportViewer.WebForms.dll
 C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\obj\Debug\ABMbanco.csproj.CopyComplete
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\bin\Debug\SqlServerTypes\x64\msvcr120.dll
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\bin\Debug\SqlServerTypes\x64\SqlServerSpatial140.dll
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\bin\Debug\SqlServerTypes\x86\msvcr120.dll
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\bin\Debug\SqlServerTypes\x86\SqlServerSpatial140.dll
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\bin\Debug\Microsoft.ReportViewer.WinForms.dll
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\bin\Debug\Microsoft.SqlServer.Types.dll
+C:\Users\China\Documents\SEGUNDO CUATRIMESTRE\programacion II\ABMbanco\obj\Debug\ABMbanco.Reporte.Reporte.resources
