@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ABMbanco.Reporte;
 
 namespace ABMbanco
 {
@@ -214,5 +215,12 @@ namespace ABMbanco
             }
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            new Reporte().ShowDialog();
+        }
+
+
     }
 }
