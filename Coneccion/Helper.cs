@@ -89,11 +89,8 @@ namespace ABMbanco
                     cmdDetalle.Parameters.AddWithValue("@cod_cliente",cod_cliente);
                    
                     cmdDetalle.ExecuteNonQuery();
-
                 }
-
                 t.Commit();
-
             }
             catch (Exception )
             {
