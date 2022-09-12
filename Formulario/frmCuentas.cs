@@ -11,12 +11,12 @@ using ABMbanco.Reporte;
 
 namespace ABMbanco
 {
-    public partial class Form1 : Form
+    public partial class frmCuentas : Form
     {
         Helper helper = new Helper();   
         List<Clientes> lClientes = new List<Clientes>();       
 
-        public Form1()
+        public frmCuentas()
         {
             InitializeComponent();
         }
@@ -140,8 +140,7 @@ namespace ABMbanco
                 cl.Nombre=Convert.ToString(txtNombre.Text);
                 cl.Dni=Convert.ToInt32(txtDni.Text);
 
-                GuardarCliente();              
-                
+                GuardarCliente();                 
             }
         }
         private bool validar()
@@ -218,7 +217,7 @@ namespace ABMbanco
 
         private void button2_Click(object sender, EventArgs e)
         {
-            new Reporte().ShowDialog();
+          //  new Reporte().ShowDialog();
         }
 
 

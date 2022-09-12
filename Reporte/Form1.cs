@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace ABMbanco.Reporte
 {
-    public partial class Reporte : Form
+    public partial class frmReporte : Form
     {
-        public Reporte()
+        public frmReporte()
         {
             InitializeComponent();
         }
