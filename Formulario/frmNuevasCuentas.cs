@@ -13,7 +13,7 @@ namespace ABMbanco
 {
     public partial class frmCuentas : Form
     {
-        Helper helper = new Helper();   
+          
         List<Clientes> lClientes = new List<Clientes>();       
 
         public frmCuentas()
@@ -30,7 +30,7 @@ namespace ABMbanco
         }
         private void cargarProximoCliente()
         {
-            int next = helper.ProximoCliente("ProximoCiente");
+            int next = Helper.ObtenerInstancia().ProximoCliente("ProximoCiente");
             if (next >1)
             
                 lblProximoCliente.Text = "Cliente Nro: " + next.ToString();
@@ -68,7 +68,7 @@ namespace ABMbanco
         }
         private void cargarCombo()
         {
-            DataTable tabla = helper.ConsultarBD("cboTiposCuentas");
+            DataTable tabla = Helper.ObtenerInstancia().ConsultarSQL("cboTiposCuentas");
             cboTipoCuenta.DataSource = tabla;
             cboTipoCuenta.ValueMember =tabla.Columns[0].ColumnName;
             cboTipoCuenta.DisplayMember=tabla.Columns[1].ColumnName;
@@ -115,7 +115,7 @@ namespace ABMbanco
             nuevaCuenta.tipoCuenta.pTipo = cboTipoCuenta.SelectedValue.ToString();
             c.Cuentas.Add(nuevaCuenta);
 
-            if (helper.ConfirmarCliente(c))
+            if (Helper.ObtenerInstancia().ConfirmarCliente(c))
             {
                 MessageBox.Show("Cliente registrado", "Informe", 
                     MessageBoxButtons.OK, 

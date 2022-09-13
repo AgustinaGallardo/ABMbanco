@@ -17,10 +17,13 @@ namespace ABMbanco.Reporte
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void Reportes_Load(object sender, EventArgs e)
         {
 
-            this.reportViewer1.RefreshReport();
+            this.Reporte.RefreshReport();
+            DataTable table = Helper.ObtenerInstancia().ConsultarSQL("SP_REPORTE_CLIENTES");
+            Reporte.LocalReport.DataSources.Add(new Microsoft.Reporting.WinForms.ReportDataSource("DataSet1", table));
+            Reporte.RefreshReport();
         }
 
         private void reportViewer1_Load(object sender, EventArgs e)

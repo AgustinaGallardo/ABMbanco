@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ABMbanco.Reporte;
 
 namespace ABMbanco.Formulario
 {
@@ -27,6 +28,12 @@ namespace ABMbanco.Formulario
         {
            frmConsultarCuentas frmConsulta = new frmConsultarCuentas();
             frmConsulta.ShowDialog();
+        }
+
+        private void consultarToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            frmReporte reporte = new frmReporte();
+            reporte.ShowDialog();
         }
     }
 }
