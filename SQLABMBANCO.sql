@@ -85,4 +85,42 @@ insert into cuentas (cbu,id_tipoCuenta,saldo,ultimoMovimiento,id_cliente)
 	values  (@cbu,@id_tipoCuenta, @saldo,@ultimoMovimiento,@cod_cliente)
 end
 
-select * from CLIENTES
+select * from Cuentas
+
+create  procedure sp_consultarCuenta
+@apellidoCliente varchar(30),
+@nombreCliente varchar(20),
+@dni int
+as 
+begin
+select cu.cbu,tc.nombre,cu.saldo,cu.ultimoMovimiento
+from clientes c
+join cuentas cu on cu.id_cliente=c.id_cliente 
+join TIPOCUENTAS tc on tc.id_tipoCuenta=cu.id_tipoCuenta
+where  c.apellido = @apellidoCliente and
+         c.nombre =  @nombreCliente  and 
+            c.dni =  @dni    
+end
+
+
+CREATE PROCEDURE SP_ELIMINAR_CUENTA
+@cbu int
+AS
+BEGIN
+	UPDATE cuentas SET fecha_baja = GETDATE()
+	WHERE cbu = @cbu;
+END
+
+ALTER TABLE CUENTAS
+ADD fecha_baja datetime
+
+
+create procedure SP_REPORTE_CLIENTES
+AS
+BEGIN
+	select C.apellido + SPACE(1) + C.nombre 'Clientes', dni 'DNI',
+	        ct.cbu 'CBU', t.nombre 'Tipo',
+	ct.saldo 'Saldo', ct.ultimoMovimiento 'Fecha'
+	from clientes c join cuentas ct on c.id_cliente = ct.id_cliente
+	join tipocuentas t on ct.id_tipocuenta = t.id_tipocuenta
+END

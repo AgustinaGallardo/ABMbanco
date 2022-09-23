@@ -20,7 +20,6 @@ namespace ABMbanco
             cmd.CommandType = CommandType.StoredProcedure;
             cnn.Open();
         }
-
         public static Helper ObtenerInstancia()
         {
             if (instancia == null)
@@ -100,19 +99,20 @@ namespace ABMbanco
 
             return afectadas;
         }
-        public int ProximoCliente(string sp_nombre)
-        {
-            conectar();
+        public int ObtenerProximo(string sp_nombre, string nombreOutPut)
+        {            
+            cnn.Open();
+            cmd.Connection=cnn;
             cmd.CommandText=sp_nombre;
+            cmd.CommandType=CommandType.StoredProcedure;
             SqlParameter OutPut=new SqlParameter();
-            OutPut.ParameterName = "@Next";
+            OutPut.ParameterName = nombreOutPut;
             OutPut.DbType = DbType.Int32;
             OutPut.Direction = ParameterDirection.Output;
             cmd.Parameters.Add(OutPut);
             cmd.ExecuteNonQuery();
             cnn.Close();
             return (int)OutPut.Value;
-
         }      
 
         public bool ConfirmarCliente(Clientes c)
@@ -153,7 +153,7 @@ namespace ABMbanco
                     cmdDetalle.CommandType = CommandType.StoredProcedure;
 
                     cmdDetalle.Parameters.AddWithValue("@cbu",item.Cbu);
-                    cmdDetalle.Parameters.AddWithValue("@id_tipoCuenta", Int32.Parse(item.tipoCuenta.pTipo));
+                    cmdDetalle.Parameters.AddWithValue("@id_tipoCuenta", Int32.Parse(item.tipoCuenta.Tipo));
                     cmdDetalle.Parameters.AddWithValue("@saldo", item.Saldo);
                     cmdDetalle.Parameters.AddWithValue("@ultimomovimiento", item.UltimoMovimiento);
                     cmdDetalle.Parameters.AddWithValue("@cod_cliente",cod_cliente);

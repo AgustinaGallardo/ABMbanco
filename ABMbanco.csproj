@@ -66,6 +66,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Datos\Helper.cs" />
+    <Compile Include="Datos\Implementacion\ClienteDao.cs" />
+    <Compile Include="Datos\Interfaz\iDaoCliente.cs" />
     <Compile Include="Dominio\TipoCuenta.cs" />
     <Compile Include="Dominio\Clientes.cs" />
     <Compile Include="Dominio\Cuenta.cs" />
@@ -101,6 +103,8 @@
     <Compile Include="Reporte\Reportes.Designer.cs">
       <DependentUpon>Reportes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Servicios\Implementacion\Servicio.cs" />
+    <Compile Include="Servicios\Interfaz\iServicio.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
     <EmbeddedResource Include="Formulario\ConsultarCuentas.resx">
       <DependentUpon>ConsultarCuentas.cs</DependentUpon>
@@ -165,5 +169,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

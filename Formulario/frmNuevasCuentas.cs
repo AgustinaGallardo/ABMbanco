@@ -8,17 +8,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ABMbanco.Reporte;
+using ABMbanco.Servicios;
+using ABMbanco.Servicios.Implementacion;
 
 namespace ABMbanco
 {
     public partial class frmCuentas : Form
     {
-          
+
+        private iServicio gestor;
+
         List<Clientes> lClientes = new List<Clientes>();       
 
         public frmCuentas()
         {
             InitializeComponent();
+            gestor = new Servicio();
+
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -26,11 +32,11 @@ namespace ABMbanco
             cargarDGV();
             Limpiar();
             Habilitar(false);
-            cargarProximoCliente();
+            ObtenerProximo();
         }
-        private void cargarProximoCliente()
+        private void ObtenerProximo()
         {
-            int next = Helper.ObtenerInstancia().ProximoCliente("ProximoCiente");
+            int next =gestor.ObtenerProximo();
             if (next >1)
             
                 lblProximoCliente.Text = "Cliente Nro: " + next.ToString();
@@ -68,12 +74,12 @@ namespace ABMbanco
         }
         private void cargarCombo()
         {
-            DataTable tabla = Helper.ObtenerInstancia().ConsultarSQL("cboTiposCuentas");
-            cboTipoCuenta.DataSource = tabla;
-            cboTipoCuenta.ValueMember =tabla.Columns[0].ColumnName;
-            cboTipoCuenta.DisplayMember=tabla.Columns[1].ColumnName;
-            cboTipoCuenta.DropDownStyle=ComboBoxStyle.DropDownList;
+            cboTipoCuenta.DataSource = gestor.ObtenerTodos();
+            cboTipoCuenta.ValueMember = "Id";
+            cboTipoCuenta.DisplayMember= "Tipo";
+            cboTipoCuenta.DropDownStyle = ComboBoxStyle.DropDownList;
         }
+
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
 
@@ -112,7 +118,7 @@ namespace ABMbanco
             Cuenta nuevaCuenta = new Cuenta();
             nuevaCuenta.Cbu = Convert.ToInt32(txtcbu.Text);
             nuevaCuenta.Saldo = Convert.ToDouble(txtSaldo.Text);
-            nuevaCuenta.tipoCuenta.pTipo = cboTipoCuenta.SelectedValue.ToString();
+            nuevaCuenta.tipoCuenta.Tipo = cboTipoCuenta.SelectedValue.ToString();
             c.Cuentas.Add(nuevaCuenta);
 
             if (Helper.ObtenerInstancia().ConfirmarCliente(c))

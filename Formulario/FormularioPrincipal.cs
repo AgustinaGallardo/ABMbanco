@@ -20,8 +20,7 @@ namespace ABMbanco.Formulario
 
         private void nuevaCuentaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-         frmCuentas nuevoFrmCuentas = new frmCuentas();
-            nuevoFrmCuentas.ShowDialog();
+           new frmCuentas().ShowDialog();
         }
 
         private void consultarToolStripMenuItem_Click(object sender, EventArgs e)

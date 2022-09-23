@@ -8,25 +8,34 @@ namespace ABMbanco
 {
     internal class TipoCuenta
     {
+        private int id;
         private string tipo;
 
-        public TipoCuenta(string tipo)
+        public TipoCuenta(int id,string tipo)
         {
             this.tipo = tipo;
+            this.id = id;
         }
 
-        public string pTipo
+        public string Tipo
         {
             get { return tipo; }
             set { tipo = value; }
         }
+        public int Id 
+        { 
+            get { return id; }
+            set { id = value; }
+        }
         public TipoCuenta()
-        {
+        {  
+            id = 0;
             tipo = "";
+         
         }
         public override string ToString()
         {
-            return "Tipo Cuenta: " +tipo;
+            return "Tipo Cuenta: " +tipo ;
         }
 
     }
